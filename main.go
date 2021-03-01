@@ -20,7 +20,7 @@ func main() {
 	// botSecretKey := os.Getenv("botSecretKey")
 	// log.Printf(botToken)
 	// log.Printf(botSecretKey)
-	bot, err := linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
+	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
 	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/callback", response)
 
