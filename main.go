@@ -21,6 +21,10 @@ func main() {
 	http.HandleFunc("/callback", response)
 	fmt.Println(bot)
 	fmt.Println(err)
+
+	port := os.Getenv("PORT")
+	addr := fmt.Sprintf(":%s", port)
+	http.ListenAndServe(addr, nil)
 }
 
 func response(writer http.ResponseWriter, request *http.Request) {
