@@ -16,11 +16,11 @@ func main() {
 	log.Println("hi")
 
 	var err error
-	botToken := os.Getenv("botToken")
-	botSecretKey := os.Getenv("botSecretKey")
-	log.Printf(botToken)
-	log.Printf(botSecretKey)
-	bot, err := linebot.New(botSecretKey, botToken)
+	// botToken := os.Getenv("botToken")
+	// botSecretKey := os.Getenv("botSecretKey")
+	// log.Printf(botToken)
+	// log.Printf(botSecretKey)
+	bot, err := linebot.New(os.Getenv("botSecretKey"), os.Getenv("botToken"))
 	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/callback", response)
 
