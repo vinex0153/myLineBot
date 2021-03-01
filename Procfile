@@ -1,1 +1,1 @@
-web:myLineBot
+web: go run main.go
