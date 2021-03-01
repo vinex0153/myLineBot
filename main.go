@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -12,15 +13,16 @@ import (
 var bot *linebot.Client
 
 func main() {
-	fmt.Println("hi")
+	log.Println("hi")
 
+	var err error
 	botToken := os.Getenv("botToken")
 	botSecretKey := os.Getenv("botSecretKey")
-
+	log.Printf(botToken)
+	log.Printf(botSecretKey)
 	bot, err := linebot.New(botSecretKey, botToken)
+	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/callback", response)
-	fmt.Println(bot)
-	fmt.Println(err)
 
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
@@ -28,6 +30,7 @@ func main() {
 }
 
 func response(writer http.ResponseWriter, request *http.Request) {
+	log.Printf("response")
 	botEvents, err := bot.ParseRequest(request)
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
@@ -44,10 +47,10 @@ func response(writer http.ResponseWriter, request *http.Request) {
 			case *linebot.TextMessage:
 				quota, err := bot.GetMessageQuota().Do()
 				if err != nil {
-
+					log.Println("Quota err:", err)
 				}
 				if _, err = bot.ReplyMessage(botEvent.ReplyToken, linebot.NewTextMessage(message.ID+":"+message.Text+" OK! remain message:"+strconv.FormatInt(quota.Value, 10))).Do(); err != nil {
-
+					log.Print(err)
 				}
 			}
 		}
